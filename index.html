@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promises</title>
+</head>
+<body>
+    <h2>Q1. Write one example explaining how you can write a callback function.</h2>
+    <p>
+        <pre>
+            function age(a,b){
+                return (a+b);
+            }
+            
+            function detail(name,age){
+                console.log(`${name},${age}`);
+            }
+            detail("Ashish",age(10,50));
+        </pre>
+    </p>
+    <h2>
+        Explain callback hell. <br>
+        Write a callback function to print numbers from 1 to 7, in which 1 should be printed after 1 sec, 2 should be printed after 2 sec, 3 should be printed after 3 sec, and so on. 
+        <br>
+        Numbers <br>
+        1 <br>
+        2 <br>
+        3 <br>
+        4 <br>
+        5 <br>
+        6 <br>
+        7
+    </h2>
+    <p>
+        When we have to call callbacks inside callbacks, we get a deeply nested function, which is much harder to read and debug. This is called "callback hell" or the "pyramid of doom" (because the indentation looks like a pyramid on its side).
+        When we nest callbacks, it can also get very hard to handle errors: often you have to handle errors at each level of the "pyramid", instead of having error handling only once at the top level.
+        In Callback hell the main thing is the code readability as it is hard to understand the code in one go.
+        <pre>
+            setTimeout(() => {
+                let count = 1;
+                setTimeout(() => {
+                    console.log(count++);
+                    setTimeout(() => {
+                        console.log(count++);
+                        setTimeout(() => {
+                            console.log(count++);
+                            setTimeout(() => {
+                                console.log(count++);
+                                setTimeout(() => {
+                                    console.log(count++);
+                                    setTimeout(() => {
+                                        console.log(count++);
+                                    }, 7000);
+                                }, 6000);
+                            }, 5000);
+                        }, 4000);
+                    }, 3000);
+                }, 2000);
+            }, 1000);
+        </pre>
+    </p>
+    <h2>Q3. Write the promise function to print numbers from 1 to 7, in which 1 should be printed after 1 sec, 2 should be printed after 2 sec, 3 should be printed after 3 sec, and so on. <br>
+
+        Numbers <br>
+        1 <br>
+        2 <br> 
+        3 <br>
+        4 <br>
+        5 <br>
+        6 <br>
+        7
+    </h2>
+    <pre>
+        function printNum(){
+            for(i=0; i<=7;i++){
+                console.log(i);
+            }
+        }
+        const newPromise = new Promise((res,rej)=>{
+            setTimeout(() => {
+                let print = printNum();
+                
+            }, 1000);
+        })
+        
+    </pre>
+    <h2>Q4. Create a promise function accepting an argument, if yes is passed to the function then it should go to resolved state and print Promise Resolved, and if nothing is passed then it should go to reject the state and catch the error and print Promise Rejected.</h2>
+    <pre>
+        const myPromise = new Promise((resolve,reject)=>{
+            let batch = "EA18";
+            if(batch == "EA18"){
+                resolve("Welcome to batch");
+            }
+            else{
+                reject("Not your batch");
+            }
+        })
+        
+        myPromise.then((k)=>{
+            console.log(k);
+        }).catch((x)=>{
+            console.log(x);
+        })
+    </pre>
+    <h2>Q5. Create examples to explain callback function</h2>
+    <pre>
+        function callback1(cb){
+            for(let i =1;i<=10;i++){
+                cb(i);
+            }
+        }
+        
+        callback1(function cb(i){
+            setTimeout(()=>{
+                console.log(i);
+            },i*1000);
+        });
+    </pre>
+
+    <h2>Q6. Create examples to explain callback hell function</h2>
+    <pre>
+        setTimeout(()=>{
+            setTimeout(()=>{
+                setTimeout(()=>{
+                    setTimeout(()=>{
+                        setTimeout(()=>{
+                            setTimeout(()=>{
+                                console.log(1);
+                            },6000)
+                        },5000)
+                    },4000)
+                },3000)
+            },2000)
+        },1000)
+    </pre>
+    <h2>Q7. Create examples to explain promises function</h2>
+    <pre>
+        function checkEvenorNot(num){
+            if (num%2 == 0){
+                return true;
+            }
+            return false;
+        }
+        
+        const myPromise = new Promise((res, rej)=>{
+            setTimeout(()=>{
+                let result = checkEvenorNot(25);
+                if(result == true){
+                    res("It is even");
+                }
+                else{
+                    rej("It is odd");
+                }
+            },5000)
+        })
+        myPromise.then((data)=>{
+            console.log(data);
+        }).catch((data)=>{
+            console.log(data);
+        })
+    </pre>
+    <h2>Q8. Create examples to explain async await function.</h2>
+    <pre>
+        function checkEvenorNot(num){
+            if (num%2 == 0){
+                return true;
+            }
+            return false;
+        }
+        
+        const myPromise = new Promise((res, rej)=>{
+            setTimeout(()=>{
+                let result = checkEvenorNot(25);
+                if(result == true){
+                    res("It is even");
+                }
+                else{
+                    rej("It is odd");
+                }
+            },5000)
+        })
+        async function getData(){
+            try{
+                let data = await myPromise();
+                console.log(data)
+            }
+            catch(err){
+                console.log("Error", err)
+            }
+        }
+    </pre>
+    <h2>Q9. Create examples to explain promise.all function</h2>
+    <pre>
+        
+        function a1(){
+            return new Promise ((res, rej)=>{
+                setTimeout(() => {
+                    res("Hello")
+                }, 5000);
+            })
+        }
+        function a2(){
+            return new Promise ((res, rej)=>{
+                setTimeout(() => {
+                    res("World")
+                }, 5000);
+            })
+        }
+
+        async function d1(){
+            try {
+                let result = Promise.all([a1(),a2()]);
+                console.log(result[0] + " " + result[1]);
+            }
+            catch(err){
+                console.log("Error");
+            }
+        }
+        d1();
+    </pre>
+</body>
+</html>
